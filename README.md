@@ -48,11 +48,12 @@ Each screening box displays:
   - Number of paid screenings among those (with warning when exceeding 10)
   - Time conflicts between screenings tagged #selected
 
-### Data Persistence
-- Tags are automatically saved to browser's localStorage (`tff2026_screening_tags`)
-- Tags persist between browser sessions
-- Users can export tags to a JSON file for backup (format includes `screeningTags` and optional `selections` for compatibility)
-- Users can import previously exported tag data; old export files with `selections` only are migrated to tags (#selected)
+### Data Persistence (URL hash)
+- Tagging configuration is stored in the page URL hash (e.g. `#?tag[selected]=IK8-01,KK10-01&tag[interested]=KK10-01,AVARK-01`)
+- The hash updates automatically when you add or remove tags
+- Reloading the page restores your last tagging state from the URL
+- Sharing the URL shares your tagging configuration; no separate export/import is needed
+- Use "Tyhjennä tagit" to clear all tags (and the hash)
 
 ## User Workflow
 
@@ -62,7 +63,7 @@ Each screening box displays:
 4. **Check for conflicts**: The application warns if screenings tagged #selected overlap in time
 5. **Monitor paid screening count**: Keep track of the 10-screening limit among #selected screenings
 6. **Review tagged screenings**: Use the summary list at the bottom to see all "tagged as #selected" screenings in chronological order
-7. **Export your plan**: Save your tags as a JSON file for safekeeping
+7. **Share or bookmark**: Copy the URL to save or share your tagging; reloading the page restores the same configuration
 
 ## Data Format
 
@@ -86,7 +87,7 @@ This application was designed with specific user requirements:
 - Desktop-only design (no mobile optimization needed)
 - Single language interface (Finnish)
 - No filtering needed (source data is pre-filtered)
-- Simple export/import via JSON files instead of complex sharing features
+- Tagging state in the URL (hash) for easy sharing and reload persistence
 
 ## Limitations
 

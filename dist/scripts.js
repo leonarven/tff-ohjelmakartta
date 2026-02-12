@@ -49,7 +49,7 @@ async function init() {
 	try {
 		// Tässä ladattaisiin oikea data
 		festivalData = await fetchFestivalData();
-		loadFromLocalStorage();
+		loadFromHash();
 		renderSchedule();
 		updateStats();
 	} catch (error) {
@@ -309,7 +309,7 @@ function closeTagMenu() {
 }
 
 function refreshAfterTagChange() {
-	saveToLocalStorage();
+	saveToHash();
 	renderSchedule();
 	updateStats();
 	updateSelectedList();
@@ -434,88 +434,39 @@ function formatDateTime(datetimeString) {
 	return `${formatDate(datetimeString.split('T')[0])} ${formatTime(datetimeString)}`;
 }
 
-const STORAGE_KEY_TAGS = 'tff2026_screening_tags';
-const STORAGE_KEY_LEGACY_SELECTIONS = 'tff2026_selections';
+const HASH_PARAM_PREFIX = 'tag[';
 
-function saveToLocalStorage() {
-	localStorage.setItem(STORAGE_KEY_TAGS, JSON.stringify(screeningTags));
+function saveToHash() {
+	const params = new URLSearchParams();
+	PREDEFINED_TAGS.forEach(({ id }) => {
+		const ids = getScreeningsWithTag(id);
+		if (ids.length) params.set(HASH_PARAM_PREFIX + id + ']', ids.join(','));
+	});
+	const query = params.toString();
+	location.hash = query ? '?' + query : '';
 }
 
-function loadFromLocalStorage() {
-	const saved = localStorage.getItem(STORAGE_KEY_TAGS);
-	if (saved) {
-		try {
-			screeningTags = JSON.parse(saved);
-		} catch (e) {
-			screeningTags = {};
+function loadFromHash() {
+	const hash = location.hash.substring(1);
+	if (!hash || !hash.startsWith('?')) return;
+	const params = new URLSearchParams(hash);
+	screeningTags = {};
+	PREDEFINED_TAGS.forEach(({ id }) => {
+		const key = HASH_PARAM_PREFIX + id + ']';
+		const val = params.get(key);
+		if (val) {
+			val.split(',').forEach(sid => {
+				const tid = sid.trim();
+				if (tid) setTag(tid, id);
+			});
 		}
-		return;
-	}
-	// Migrate from old selections
-	const legacy = localStorage.getItem(STORAGE_KEY_LEGACY_SELECTIONS);
-	if (legacy) {
-		try {
-			const ids = JSON.parse(legacy);
-			if (Array.isArray(ids)) {
-				ids.forEach(id => { screeningTags[id] = ['selected']; });
-				saveToLocalStorage();
-			}
-		} catch (e) {
-			// ignore
-		}
-	}
-}
-
-function exportSelection() {
-	const data = {
-		screeningTags,
-		selections: getScreeningsWithTag('selected'),
-		timestamp: new Date().toISOString()
-	};
-	const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-	const url = URL.createObjectURL(blob);
-	const a = document.createElement('a');
-	a.href = url;
-	a.download = `tff2026_screening_tags_${Date.now()}.json`;
-	a.click();
-}
-
-function importSelection() {
-	const input = document.createElement('input');
-	input.type = 'file';
-	input.accept = 'application/json';
-	input.onchange = (e) => {
-		const file = e.target.files[0];
-		const reader = new FileReader();
-		reader.onload = (event) => {
-			try {
-				const data = JSON.parse(event.target.result);
-				if (data.screeningTags && typeof data.screeningTags === 'object') {
-					screeningTags = data.screeningTags;
-				} else if (data.selections && Array.isArray(data.selections)) {
-					screeningTags = {};
-					data.selections.forEach(id => { screeningTags[id] = ['selected']; });
-				} else {
-					throw new Error('Tuntematon tiedostomuoto');
-				}
-				saveToLocalStorage();
-				renderSchedule();
-				updateStats();
-				updateSelectedList();
-				alert('Tagit tuotu onnistuneesti!');
-			} catch (error) {
-				alert('Virhe tiedoston lukemisessa!');
-			}
-		};
-		reader.readAsText(file);
-	};
-	input.click();
+	});
 }
 
 function clearSelection() {
 	if (confirm('Haluatko varmasti tyhjentää kaikki tagit?')) {
 		screeningTags = {};
-		saveToLocalStorage();
+		saveToHash();
 		renderSchedule();
 		updateStats();
 		updateSelectedList();
@@ -524,8 +475,6 @@ function clearSelection() {
 
 // Inline onclick handlers need these on window (script is module)
 window.toggleSelectedTag = toggleSelectedTag;
-window.exportSelection = exportSelection;
-window.importSelection = importSelection;
 window.clearSelection = clearSelection;
 
 // Käynnistä sovellus
