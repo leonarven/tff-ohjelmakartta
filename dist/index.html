@@ -1,12 +1,10 @@
-
 <!DOCTYPE html>
-
 <html lang="fi">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=1400" name="viewport"/>
-<title>TFF2026 Ohjelmakartta</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFF2026 Ohjelmakartta</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -14,180 +12,154 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1a2e;
-            color: #ffffff;
-            min-width: 1400px;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
         }
 
-        /* Header */
+        .container {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
         .header {
-            background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: #2a2a2a;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
         }
 
         .header h1 {
-            font-size: 24px;
-            font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        .header-stats {
+        .stats {
             display: flex;
-            gap: 30px;
-            align-items: center;
+            gap: 20px;
+            margin-top: 10px;
         }
 
-        .stat-box {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-box .number {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .stat-box .label {
-            font-size: 11px;
-            opacity: 0.9;
-        }
-
-        .stat-box.warning {
-            background: rgba(255, 152, 0, 0.8);
-        }
-
-        .stat-box.error {
-            background: rgba(244, 67, 54, 0.8);
-        }
-
-        /* Legend */
-        .legend {
-            background: #252542;
+        .stat-item {
+            background: #3a3a3a;
             padding: 10px 20px;
+            border-radius: 4px;
+        }
+
+        .stat-item.warning {
+            background: #b34700;
+        }
+
+        .controls {
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 1px solid #3a3a5c;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
+        button {
+            background: #4a4a4a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 3px;
+        button:hover {
+            background: #5a5a5a;
         }
 
-        /* Main container */
-        .main-container {
-            display: flex;
-        }
-
-        /* Grid container */
-        .grid-container {
-            flex: 1;
+        .grid-wrapper {
+            position: relative;
             overflow-x: auto;
-            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
         }
 
-        /* Schedule grid */
+        .day-section {
+            margin-bottom: 40px;
+        }
+
+        .day-header {
+            background: #3a3a3a;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
         .schedule-grid {
             display: grid;
-            gap: 1px;
-            background: #3a3a5c;
-            min-width: max-content;
+            gap: 2px;
+            min-width: fit-content;
         }
 
-        /* Day columns */
-        .day-header {
-            background: #e91e63;
-            color: white;
+        /* Dynaamiset sarakkeet lasketaan JavaScriptillä */
+        .time-column {
             padding: 10px;
+            background: #3a3a3a;
             text-align: center;
             font-weight: bold;
-            font-size: 14px;
-            grid-column: span 5;
+            min-width: 60px;
         }
 
         .venue-header {
-            background: #3d3d6b;
-            color: #fff;
-            padding: 6px 4px;
+            background: #4a4a4a;
+            padding: 10px;
             text-align: center;
-            font-size: 10px;
-            font-weight: 600;
+            font-weight: bold;
+            font-size: 12px;
+            min-width: 150px;
         }
 
-        .time-label {
-            background: #252542;
-            color: #aaa;
-            padding: 4px 8px;
-            font-size: 11px;
-            text-align: right;
-            min-width: 50px;
+        .time-row {
+            background: #3a3a3a;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            min-width: 60px;
         }
 
-        .grid-cell {
-            background: #1e1e36;
-            min-height: 30px;
+        .screening-cell {
+            min-height: 40px;
             position: relative;
+            min-width: 150px;
         }
 
-        /* Screening blocks */
-        .screening {
+        .screening-box {
             position: absolute;
             left: 2px;
             right: 2px;
+            padding: 4px;
             border-radius: 4px;
-            padding: 4px 6px;
             cursor: pointer;
-            overflow: hidden;
             font-size: 10px;
-            line-height: 1.3;
-            transition: all 0.2s ease;
+            overflow: hidden;
             border: 2px solid transparent;
-            z-index: 10;
+            transition: all 0.2s;
         }
 
-        .screening:hover {
+        .screening-box:hover {
             transform: scale(1.02);
-            z-index: 20;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
 
-        .screening.selected {
-            border-color: #00ff88;
-            box-shadow: 0 0 0 2px #00ff88, 0 4px 12px rgba(0,255,136,0.3);
+        .screening-box.selected {
+            border: 3px solid #ffff00;
+            box-shadow: 0 0 10px rgba(255,255,0,0.5);
         }
 
-        .screening.conflict {
-            border-color: #ff4444;
-            animation: pulse-conflict 1s infinite;
-        }
-
-        @keyframes pulse-conflict {
-            0%, 100% { box-shadow: 0 0 0 2px #ff4444; }
-            50% { box-shadow: 0 0 0 4px #ff4444, 0 0 12px #ff4444; }
+        .screening-box.conflict {
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 10px rgba(255,0,0,0.5);
         }
 
         .screening-title {
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: bold;
+            margin-bottom: 2px;
         }
 
         .screening-code {
@@ -196,460 +168,130 @@
         }
 
         .screening-time {
-            font-size: 9px;
-            opacity: 0.9;
-        }
-
-        .screening-duration {
-            font-size: 9px;
             opacity: 0.7;
+            font-size: 9px;
         }
 
-        .screening.free::before {
-            content: "ILMAINEN";
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            background: #4caf50;
-            color: white;
-            font-size: 7px;
-            padding: 1px 4px;
-            border-radius: 2px;
-            font-weight: bold;
+        /* Värikoodit sarjoille */
+        .series-IK { background: #4a7ba7; }
+        .series-KK { background: #5a8fb7; }
+        .series-GXYZ { background: #6a9fc7; }
+        .series-AA { background: #4a9a4a; }
+        .series-UK { background: #b8a83c; }
+        .series-RR { background: #8a5a9a; }
+        .series-UH-RET { background: #9a6aaa; }
+        .series-UH-CB { background: #aa7aba; }
+        .series-ESFAA { background: #7a9aba; }
+        .series-ESFP { background: #8aaaca; }
+        .series-KAA { background: #6a8a9a; }
+        .series-PCH { background: #ca8a5a; }
+        .series-ELO { background: #da9a6a; }
+        .series-KTAMK { background: #ea aa7a; }
+        .series-MK { background: #5a9a8a; }
+        .series-PEL { background: #9a7a6a; }
+        .series-ERIK { background: #7a6a8a; }
+        .series-WAV { background: #6a8a7a; }
+
+        .free-screening {
+            border: 2px solid #00ff00;
         }
 
-        /* Color categories */
-        .cat-kilpailu { background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%); color: white; }
-        .cat-kotimainen { background: linear-gradient(135deg, #00838f 0%, #0097a7 100%); color: white; }
-        .cat-gxyz { background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%); color: white; }
-        .cat-arkisto { background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%); color: white; }
-        .cat-usko { background: linear-gradient(135deg, #ef6c00 0%, #f57c00 100%); color: white; }
-        .cat-valokeilassa { background: linear-gradient(135deg, #ad1457 0%, #c2185b 100%); color: white; }
-        .cat-nouseva { background: linear-gradient(135deg, #00695c 0%, #00897b 100%); color: white; }
-        .cat-erikois { background: linear-gradient(135deg, #37474f 0%, #546e7a 100%); color: white; }
-        .cat-lapset { background: linear-gradient(135deg, #ffb300 0%, #ffc107 100%); color: #333; }
-        .cat-default { background: linear-gradient(135deg, #424242 0%, #616161 100%); color: white; }
-
-        /* Selection panel */
-        .selection-panel {
-            width: 320px;
-            background: #252542;
-            border-left: 1px solid #3a3a5c;
-            padding: 15px;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-            position: sticky;
-            top: 120px;
-        }
-
-        .panel-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #3a3a5c;
+        .selected-list {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
         }
 
         .selected-item {
-            background: #1e1e36;
-            border-radius: 6px;
+            background: #3a3a3a;
             padding: 10px;
-            margin-bottom: 8px;
-            position: relative;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .selected-item .day {
-            font-size: 10px;
-            color: #e91e63;
-            font-weight: 600;
-        }
-
-        .selected-item .title {
+        .remove-btn {
+            background: #b34700;
+            padding: 5px 10px;
             font-size: 12px;
-            font-weight: 600;
-            margin: 4px 0;
         }
 
-        .selected-item .details {
-            font-size: 10px;
-            color: #aaa;
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .selected-item .remove-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #f44336;
-            border: none;
-            color: white;
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .legend-color {
             width: 20px;
             height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 12px;
-            line-height: 1;
-        }
-
-        .selected-item.conflict {
-            border: 2px solid #f44336;
-        }
-
-        .conflict-warning {
-            background: #f44336;
-            color: white;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin-bottom: 10px;
-        }
-
-        .export-section {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #3a3a5c;
-        }
-
-        .export-section textarea {
-            width: 100%;
-            height: 80px;
-            background: #1e1e36;
-            border: 1px solid #3a3a5c;
-            color: #fff;
-            padding: 8px;
-            font-size: 10px;
-            border-radius: 4px;
-            resize: vertical;
-        }
-
-        .btn {
-            background: #e91e63;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-top: 8px;
-            margin-right: 8px;
-        }
-
-        .btn:hover {
-            background: #c2185b;
-        }
-
-        .btn-secondary {
-            background: #3a3a5c;
-        }
-
-        .btn-secondary:hover {
-            background: #4a4a7c;
-        }
-
-        .empty-state {
-            color: #666;
-            text-align: center;
-            padding: 30px;
-            font-style: italic;
-        }
-
-        /* Day section wrapper */
-        .days-wrapper {
-            display: flex;
-            gap: 1px;
-        }
-
-        .day-column {
-            min-width: 280px;
-        }
-
-        .day-title {
-            background: #e91e63;
-            color: white;
-            padding: 12px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .venues-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1px;
-        }
-
-        .time-grid {
-            position: relative;
-            height: 900px; /* 15 hours * 60px per hour */
-        }
-
-        .time-slot {
-            position: absolute;
-            left: 0;
-            right: 0;
-            border-bottom: 1px solid #2a2a4a;
-            height: 60px;
-        }
-
-        .time-slot-label {
-            position: absolute;
-            left: -50px;
-            width: 45px;
-            text-align: right;
-            font-size: 10px;
-            color: #666;
-            transform: translateY(-6px);
-        }
-
-        .venue-column {
-            position: relative;
-            border-right: 1px solid #2a2a4a;
-            min-width: 55px;
-        }
-
-        .venue-column:last-child {
-            border-right: none;
+            border-radius: 3px;
         }
     </style>
-<meta content="https://simulationtheory.ai/30bde2fd-b220-4cff-a138-e07cbd881d26" property="og:url"/><script>
-        window.save_data_to_csv = (filename, data) => {
-            const submissionUrl = 'https://simtheory.ai/chat/save_csv/';
-            const payload = {
-                filename: filename,
-                data: data,
-                block_id: '30bde2fd-b220-4cff-a138-e07cbd881d26',
-                is_iframe: false,
-            };
-
-            return fetch(submissionUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-                credentials: 'include'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    return data;
-                } else {
-                    console.error('Error saving data:', data.error);
-                    throw new Error(data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error saving data:', error);
-                throw error;
-            });
-        };
-
-        window.load_data_from_csv = async (filename) => {
-            const submissionUrl = 'https://simtheory.ai/chat/load_csv/';
-            try {
-                const response = await fetch(submissionUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        filename: filename,
-                        block_id: '30bde2fd-b220-4cff-a138-e07cbd881d26',
-                        is_iframe: false
-                    }),
-                    credentials: 'include'
-                });
-
-                if (!response.ok) {
-                    throw new Error("HTTP error! status:", response.status);
-                }
-
-                const result = await response.json();
-                
-                if (!result.success) {
-                    throw new Error(result.error || 'Failed to fetch CSV data');
-                }
-
-                return new Promise((resolve, reject) => {
-                    Papa.parse(result.data, {
-                        header: true,
-                        dynamicTyping: true,
-                        skipEmptyLines: true,
-                        complete: (results) => {
-                            resolve({
-                                success: true,
-                                data: results.data,
-                                meta: results.meta,
-                                filename: filename
-                            });
-                        },
-                        error: (error) => {
-                            reject(new Error("CSV parsing error", error));
-                        }
-                    });
-                });
-
-            } catch (error) {
-                console.error('Error processing CSV:', error);
-                throw error;
-            }
-        };
-
-        window.call_llm = (system_prompt, user_messages, json_fields) => {
-            const submissionUrl = 'https://simtheory.ai/chat/llm/';
-            const payload = {
-                system_prompt: system_prompt,
-                messages: user_messages,
-                json_fields: json_fields,
-                block_id: '30bde2fd-b220-4cff-a138-e07cbd881d26',
-                is_iframe: false
-            };
-
-            return fetch(submissionUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-                credentials: 'include'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("HTTP error!");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    return data.response;
-                } else {
-                    console.error('Error calling LLM:', data.error);
-                    throw new Error(data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error in LLM call:', error);
-                throw error;
-            });
-        };
-
-        // Add postMessage handler for iframe communication
-        window.addEventListener('message', (event) => {
-            // Verify origin
-            const allowedOrigins = [
-                'https://simtheory.ai',
-                'https://staging.simtheory.ai',
-                'http://localhost:8000'
-            ];
-            
-            if (!allowedOrigins.includes(event.origin)) {
-                console.error('Unauthorized origin:', event.origin);
-                return;
-            }
-
-            const {type, data} = event.data;
-            
-            if (type === 'save_csv') {
-                window.save_data_to_csv(data.filename, data.data)
-                    .then(result => {
-                        event.source.postMessage({
-                            type: 'csv_saved',
-                            success: true,
-                            data: result
-                        }, event.origin);
-                    })
-                    .catch(error => {
-                        event.source.postMessage({
-                            type: 'csv_saved',
-                            success: false,
-                            error: error.message
-                        }, event.origin);
-                    });
-            }
-            
-            if (type === 'call_llm') {
-                window.call_llm(data.system_prompt, data.messages, data.json_fields)
-                    .then(result => {
-                        event.source.postMessage({
-                            type: 'llm_response',
-                            success: true,
-                            data: result
-                        }, event.origin);
-                    })
-                    .catch(error => {
-                        event.source.postMessage({
-                            type: 'llm_response',
-                            success: false,
-                            error: error.message
-                        }, event.origin);
-                    });
-            }
-        });
-    </script><script>
-        (function(w,d,s,o,f,js,fjs){
-            w['SimtheoryObject']=o;w[o]=w[o]||function(){
-                (w[o].q=w[o].q||[]).push(arguments)};
-            js=d.createElement(s),fjs=d.getElementsByTagName(s)[0];
-            js.id='simtheory-watermark';js.src=f;js.async=1;
-            fjs.parentNode.insertBefore(js,fjs);
-        })(window,document,'script','simtheory','https://simulationtheory.ai/watermark/watermark.js');
-
-        simtheory('configure', { persistent: false });
-        </script></head>
+</head>
 <body>
-<div class="header">
-<h1>🎬 TAMPERE FILM FESTIVAL 2026</h1>
-<div class="header-stats">
-<div class="stat-box" id="stat-selected">
-<div class="number" id="selected-count">0</div>
-<div class="label">VALITTUA</div>
-</div>
-<div class="stat-box" id="stat-paid">
-<div class="number"><span id="paid-count">0</span>/10</div>
-<div class="label">MAKSULLISTA</div>
-</div>
-<div class="stat-box" id="stat-free">
-<div class="number" id="free-count">0</div>
-<div class="label">ILMAISTA</div>
-</div>
-<div class="stat-box" id="stat-conflicts">
-<div class="number" id="conflict-count">0</div>
-<div class="label">PÄÄLLEKKÄISYYTTÄ</div>
-</div>
-</div>
-</div>
-<div class="legend">
-<div class="legend-item"><div class="legend-color cat-kilpailu"></div>Kansainvälinen kilpailu</div>
-<div class="legend-item"><div class="legend-color cat-kotimainen"></div>Kotimainen kilpailu</div>
-<div class="legend-item"><div class="legend-color cat-gxyz"></div>Generation XYZ</div>
-<div class="legend-item"><div class="legend-color cat-arkisto"></div>Arkiston aarteet</div>
-<div class="legend-item"><div class="legend-color cat-usko"></div>Usko koetuksella</div>
-<div class="legend-item"><div class="legend-color cat-valokeilassa"></div>Valokeilassa</div>
-<div class="legend-item"><div class="legend-color cat-nouseva"></div>Nousevia kykyjä</div>
-<div class="legend-item"><div class="legend-color cat-erikois"></div>Erikoisnäytökset</div>
-<div class="legend-item"><div class="legend-color cat-lapset"></div>Lapset</div>
-</div>
-<div class="main-container">
-<div class="grid-container" id="grid-container">
-<!-- Grid will be generated here -->
-</div>
-<div class="selection-panel">
-<div class="panel-title">📋 Valitut näytökset</div>
-<div id="conflict-warnings"></div>
-<div id="selected-list">
-<div class="empty-state">Klikkaa näytöksiä valitaksesi ne</div>
-</div>
-<div class="export-section">
-<div class="panel-title">💾 Tallenna/Lataa valinnat</div>
-<textarea id="export-data" placeholder="Valinnat näkyvät tässä JSON-muodossa"></textarea>
-<button class="btn" onclick="exportSelection()">Kopioi</button>
-<button class="btn btn-secondary" onclick="importSelection()">Tuo valinnat</button>
-<button class="btn btn-secondary" onclick="clearSelection()">Tyhjennä</button>
-</div>
-</div>
-</div>
-<script>
-        // Festival data
-	let festivalData;
+    <div class="container">
+        <div class="header">
+            <h1>🎬 TFF2026 Ohjelmakartta</h1>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <strong>Valittu:</strong> <span id="selected-count">0</span> näytöstä
+                </div>
+                <div class="stat-item" id="paid-counter">
+                    <strong>Maksullisia:</strong> <span id="paid-count">0</span> / 10
+                </div>
+                <div class="stat-item" id="conflict-warning" style="display: none;">
+                    ⚠️ Päällekkäisyyksiä havaittu!
+                </div>
+            </div>
+
+            <div class="controls">
+                <button onclick="exportSelection()">📥 Vie valinnat (JSON)</button>
+                <button onclick="importSelection()">📤 Tuo valinnat</button>
+                <button onclick="clearSelection()">🗑️ Tyhjennä valinnat</button>
+            </div>
+
+            <div class="legend" id="legend"></div>
+        </div>
+
+        <div class="grid-wrapper" id="schedule-container"></div>
+
+        <div class="selected-list">
+            <h2>Valitut näytökset</h2>
+            <div id="selected-screenings"></div>
+        </div>
+    </div>
+
+    <script>
+        // Ladataan festivaalidata (tämä korvataan oikealla datalla)
+        let festivalData = null;
+        let selectedScreenings = [];
+        let venuesPerDay = {}; // Tallentaa kunkin päivän sijaintimäärän
+
+        // Ladataan data ja alustetaan sovellus
+        async function init() {
+            try {
+                // Tässä ladattaisiin oikea data
+                festivalData = await fetchFestivalData();
+                loadFromLocalStorage();
+                renderSchedule();
+                updateStats();
+            } catch (error) {
+                console.error('Virhe datan lataamisessa:', error);
+            }
+        }
 
 	async function fetchFestivalData() {
 		const STORAGE_KEY_FESTIVAL_DATA = "tff2026_festival_data";
@@ -674,345 +316,365 @@
 		return data;
 	}
 
-        const categoryColors = {
-            'IK': 'cat-kilpailu',
-            'KK': 'cat-kotimainen',
-            'GXYZ': 'cat-gxyz',
-            'AA': 'cat-arkisto',
-            'AVARK': 'cat-arkisto',
-            'UK': 'cat-usko',
-            'RR': 'cat-valokeilassa',
-            'UH-CB': 'cat-valokeilassa',
-            'UH-RET': 'cat-valokeilassa',
-            'PCH': 'cat-nouseva',
-            'KTAMK': 'cat-nouseva',
-            'ELO': 'cat-nouseva',
-            'U48': 'cat-nouseva',
-            'KEUP': 'cat-nouseva',
-            'ERIK': 'cat-erikois',
-            'ESFAA': 'cat-erikois',
-            'ESFP': 'cat-erikois',
-            'WAV': 'cat-erikois',
-            'SUD': 'cat-erikois',
-            'PEK': 'cat-erikois',
-            'AVA': 'cat-erikois',
-            'MK': 'cat-lapset',
-            'KASIS': 'cat-lapset',
-            'KAA': 'cat-default',
-            'PEL': 'cat-default'
-        };
-
-        // State
-        let selectedScreenings = new Set();
-        const STORAGE_KEY = 'tff2026_selections';
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', async () => {
-	    festivalData = await fetchFestivalData();
-            loadFromStorage();
-            renderGrid();
-            updateStats();
-            updateSelectionPanel();
-        });
-
-        // Render the grid
-        function renderGrid() {
-            const container = document.getElementById('grid-container');
+        function renderSchedule() {
+            const container = document.getElementById('schedule-container');
             container.innerHTML = '';
 
-            const wrapper = document.createElement('div');
-            wrapper.className = 'days-wrapper';
+            // Ryhmitellään näytökset päivittäin
+            const screeningsByDay = groupScreeningsByDay();
 
-            festivalData.days.forEach(day => {
-                const dayColumn = createDayColumn(day);
-                wrapper.appendChild(dayColumn);
+            // Luodaan legenda
+            renderLegend();
+
+            // Renderöidään jokaiselle päivälle oma osio
+            Object.keys(screeningsByDay).sort().forEach(date => {
+                const daySection = document.createElement('div');
+                daySection.className = 'day-section';
+
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.textContent = formatDate(date);
+                daySection.appendChild(dayHeader);
+
+                const dayGrid = renderDayGrid(date, screeningsByDay[date]);
+                daySection.appendChild(dayGrid);
+
+                container.appendChild(daySection);
             });
-
-            container.appendChild(wrapper);
         }
 
-        function createDayColumn(day) {
-            const column = document.createElement('div');
-            column.className = 'day-column';
-
-            // Day title
-            const title = document.createElement('div');
-            title.className = 'day-title';
-            title.textContent = `${day.weekday.toUpperCase()} ${day.label}`;
-            column.appendChild(title);
-
-            // Venues header
-            const venuesRow = document.createElement('div');
-            venuesRow.className = 'venues-row';
-            festivalData.venues.forEach(venue => {
-                const venueHeader = document.createElement('div');
-                venueHeader.className = 'venue-header';
-                venueHeader.textContent = venue.shortName;
-                venuesRow.appendChild(venueHeader);
-            });
-            column.appendChild(venuesRow);
-
-            // Time grid with screenings
-            const timeGrid = document.createElement('div');
-            timeGrid.className = 'time-grid';
-            timeGrid.style.display = 'grid';
-            timeGrid.style.gridTemplateColumns = `repeat(${festivalData.venues.length}, 1fr)`;
-
-            // Add venue columns
-            festivalData.venues.forEach(venue => {
-                const venueCol = document.createElement('div');
-                venueCol.className = 'venue-column';
-                
-                // Get screenings for this day and venue
-                const dayScreenings = festivalData.screenings.filter(s => {
-                    const screeningDate = s.datetime_start.split('T')[0];
-                    return screeningDate === day.date && s.venue_id === venue.id;
-                });
-
-                // Add screening blocks
-                dayScreenings.forEach(screening => {
-                    const block = createScreeningBlock(screening);
-                    venueCol.appendChild(block);
-                });
-
-                timeGrid.appendChild(venueCol);
+        function groupScreeningsByDay() {
+            const groups = {};
+            
+            festivalData.screenings.forEach(screening => {
+                const date = screening.datetime_start.split('T')[0];
+                if (!groups[date]) {
+                    groups[date] = [];
+                }
+                groups[date].push(screening);
             });
 
-            // Add time labels
+            return groups;
+        }
+
+        function renderDayGrid(date, screenings) {
+            const grid = document.createElement('div');
+            grid.className = 'schedule-grid';
+
+            // Laske kuinka monta sijaintia on käytössä tänä päivänä
+            const venuesForDay = getVenuesForDay(screenings);
+            venuesPerDay[date] = venuesForDay;
+            const venueCount = venuesForDay.length;
+
+            // Aseta grid-sarakkeet dynaamisesti: 1 aikasarake + N sijaintia
+            grid.style.gridTemplateColumns = `60px repeat(${venueCount}, 1fr)`;
+
+            // Renderöi header-rivi
+            renderGridHeader(grid, venuesForDay);
+
+            // Luo aikaruudukko (9:00 - 24:00)
+            const timeSlots = generateTimeSlots();
+            
+            timeSlots.forEach(time => {
+                // Aikasarake
+                const timeCell = document.createElement('div');
+                timeCell.className = 'time-row';
+                timeCell.textContent = time;
+                grid.appendChild(timeCell);
+
+                // Sijaintisolut
+                venuesForDay.forEach(venue => {
+                    const cell = document.createElement('div');
+                    cell.className = 'screening-cell';
+                    cell.dataset.time = time;
+                    cell.dataset.venue = venue.venue_id;
+                    cell.dataset.date = date;
+
+                    // Lisää näytökset jotka alkavat tämän tunnin aikana
+                    const cellScreenings = getScreeningsForCell(date, venue.venue_id, time, screenings);
+                    cellScreenings.forEach(screening => {
+                        const box = createScreeningBox(screening);
+                        cell.appendChild(box);
+                    });
+
+                    grid.appendChild(cell);
+                });
+            });
+
+            return grid;
+        }
+
+        function getVenuesForDay(screenings) {
+            // Kerrää uniikit sijainnit jotka ovat käytössä näissä näytöksissä
+            const venueIds = [...new Set(screenings.map(s => s.venue_id))];
+            return festivalData.venues.filter(v => venueIds.includes(v.venue_id));
+        }
+
+        function renderGridHeader(grid, venues) {
+            // Tyhjä kulma-solu
+            const corner = document.createElement('div');
+            corner.className = 'time-column';
+            corner.textContent = '';
+            grid.appendChild(corner);
+
+            // Sijaintiotsikot
+            venues.forEach(venue => {
+                const header = document.createElement('div');
+                header.className = 'venue-header';
+                header.textContent = venue.name.replace('Finnkino Cine Atlas ', 'CA');
+                grid.appendChild(header);
+            });
+        }
+
+        function generateTimeSlots() {
+            const slots = [];
             for (let hour = 9; hour <= 23; hour++) {
-                const label = document.createElement('div');
-                label.className = 'time-slot-label';
-                label.style.top = `${(hour - 9) * 60}px`;
-                label.textContent = `${hour}:00`;
-                timeGrid.appendChild(label);
+                slots.push(`${hour.toString().padStart(2, '0')}:00`);
+            }
+            return slots;
+        }
+
+        function getScreeningsForCell(date, venueId, timeSlot, screenings) {
+            const [hour] = timeSlot.split(':');
+            const slotStart = parseInt(hour);
+            
+            return screenings.filter(s => {
+                if (s.venue_id !== venueId) return false;
+                
+                const startTime = new Date(s.datetime_start);
+                const startHour = startTime.getHours();
+                
+                return startHour === slotStart;
+            });
+        }
+
+        function createScreeningBox(screening) {
+            const box = document.createElement('div');
+            box.className = `screening-box series-${screening.series_id}`;
+            
+            if (screening.is_free) {
+                box.classList.add('free-screening');
             }
 
-            column.appendChild(timeGrid);
-            return column;
-        }
-
-        function createScreeningBlock(screening) {
             const startTime = new Date(screening.datetime_start);
-            const startHour = startTime.getHours();
-            const startMinute = startTime.getMinutes();
+            const hours = startTime.getHours();
+            const minutes = startTime.getMinutes();
             
-            const topPosition = (startHour - 9) * 60 + startMinute;
-            const height = Math.max(screening.duration_minutes, 30);
+            // Laske position ja korkeus
+            const topOffset = (minutes / 60) * 40; // 40px per tunti
+            const heightPx = (screening.duration_minutes / 60) * 40;
+            
+            box.style.top = `${topOffset}px`;
+            box.style.height = `${heightPx}px`;
 
-            const block = document.createElement('div');
-            block.className = `screening ${categoryColors[screening.series_id] || 'cat-default'}`;
-            if (screening.is_free) block.classList.add('free');
-            if (selectedScreenings.has(screening.screening_id)) block.classList.add('selected');
-            
-            block.style.top = `${topPosition}px`;
-            block.style.height = `${height}px`;
-            block.dataset.id = screening.screening_id;
-
-            const timeStr = `${String(startHour).padStart(2, '0')}:${String(startMinute).padStart(2, '0')}`;
-            
-            block.innerHTML = `
-                <div class="screening-time">${timeStr}</div>
+            box.innerHTML = `
                 <div class="screening-title">${screening.title}</div>
                 <div class="screening-code">${screening.ticket_code || screening.screening_id}</div>
-                <div class="screening-duration">${screening.duration_minutes} min</div>
+                <div class="screening-time">${formatTime(screening.datetime_start)} | ${screening.duration_minutes} min</div>
             `;
 
-            block.addEventListener('click', () => toggleSelection(screening.screening_id));
+            box.onclick = () => toggleScreening(screening.screening_id);
 
-            return block;
-        }
-
-        function toggleSelection(screeningId) {
-            if (selectedScreenings.has(screeningId)) {
-                selectedScreenings.delete(screeningId);
-            } else {
-                selectedScreenings.add(screeningId);
+            // Päivitä valinta-status
+            if (selectedScreenings.includes(screening.screening_id)) {
+                box.classList.add('selected');
             }
-            
-            saveToStorage();
-            updateScreeningVisuals();
-            updateStats();
-            updateSelectionPanel();
+
+            return box;
         }
 
-        function updateScreeningVisuals() {
-            document.querySelectorAll('.screening').forEach(el => {
-                const id = el.dataset.id;
-                el.classList.toggle('selected', selectedScreenings.has(id));
-            });
-            checkConflicts();
+        function toggleScreening(screeningId) {
+            const index = selectedScreenings.indexOf(screeningId);
+            
+            if (index > -1) {
+                selectedScreenings.splice(index, 1);
+            } else {
+                selectedScreenings.push(screeningId);
+            }
+
+            saveToLocalStorage();
+            renderSchedule();
+            updateStats();
+            updateSelectedList();
+        }
+
+        function updateStats() {
+            const selectedCount = selectedScreenings.length;
+            const paidCount = selectedScreenings.filter(id => {
+                const screening = festivalData.screenings.find(s => s.screening_id === id);
+                return screening && !screening.is_free;
+            }).length;
+
+            document.getElementById('selected-count').textContent = selectedCount;
+            document.getElementById('paid-count').textContent = paidCount;
+
+            const paidCounter = document.getElementById('paid-counter');
+            if (paidCount > 10) {
+                paidCounter.classList.add('warning');
+            } else {
+                paidCounter.classList.remove('warning');
+            }
+
+            // Tarkista päällekkäisyydet
+            const hasConflicts = checkConflicts();
+            document.getElementById('conflict-warning').style.display = hasConflicts ? 'block' : 'none';
         }
 
         function checkConflicts() {
-            const selected = Array.from(selectedScreenings).map(id => 
+            const selected = selectedScreenings.map(id => 
                 festivalData.screenings.find(s => s.screening_id === id)
             ).filter(Boolean);
 
-            // Remove old conflict classes
-            document.querySelectorAll('.screening.conflict').forEach(el => {
-                el.classList.remove('conflict');
-            });
-
-            const conflicts = [];
-            
             for (let i = 0; i < selected.length; i++) {
                 for (let j = i + 1; j < selected.length; j++) {
-                    const a = selected[i];
-                    const b = selected[j];
-                    
-                    const aStart = new Date(a.datetime_start);
-                    const aEnd = new Date(a.datetime_end);
-                    const bStart = new Date(b.datetime_start);
-                    const bEnd = new Date(b.datetime_end);
-
-                    // Add 15 min buffer for transitions
-                    aEnd.setMinutes(aEnd.getMinutes() + 15);
-
-                    if (aStart < bEnd && bStart < aEnd) {
-                        conflicts.push([a.screening_id, b.screening_id]);
-                        
-                        document.querySelector(`.screening[data-id="${a.screening_id}"]`)?.classList.add('conflict');
-                        document.querySelector(`.screening[data-id="${b.screening_id}"]`)?.classList.add('conflict');
+                    if (screeningsOverlap(selected[i], selected[j])) {
+                        // Merkitse konfliktit
+                        document.querySelectorAll('.screening-box').forEach(box => {
+                            const title = box.querySelector('.screening-title')?.textContent;
+                            if (title === selected[i].title || title === selected[j].title) {
+                                box.classList.add('conflict');
+                            }
+                        });
+                        return true;
                     }
                 }
             }
 
-            return conflicts;
+            document.querySelectorAll('.screening-box.conflict').forEach(box => {
+                box.classList.remove('conflict');
+            });
+            return false;
         }
 
-        function updateStats() {
-            const selected = Array.from(selectedScreenings).map(id => 
-                festivalData.screenings.find(s => s.screening_id === id)
-            ).filter(Boolean);
+        function screeningsOverlap(s1, s2) {
+            const start1 = new Date(s1.datetime_start);
+            const end1 = new Date(s1.datetime_end);
+            const start2 = new Date(s2.datetime_start);
+            const end2 = new Date(s2.datetime_end);
 
-            const paidCount = selected.filter(s => !s.is_free).length;
-            const freeCount = selected.filter(s => s.is_free).length;
-            const conflicts = checkConflicts();
-
-            document.getElementById('selected-count').textContent = selected.length;
-            document.getElementById('paid-count').textContent = paidCount;
-            document.getElementById('free-count').textContent = freeCount;
-            document.getElementById('conflict-count').textContent = conflicts.length;
-
-            // Update stat box colors
-            const paidBox = document.getElementById('stat-paid');
-            paidBox.classList.remove('warning', 'error');
-            if (paidCount > 10) paidBox.classList.add('error');
-            else if (paidCount >= 8) paidBox.classList.add('warning');
-
-            const conflictBox = document.getElementById('stat-conflicts');
-            conflictBox.classList.remove('warning', 'error');
-            if (conflicts.length > 0) conflictBox.classList.add('error');
+            return (start1 < end2 && end1 > start2);
         }
 
-        function updateSelectionPanel() {
-            const list = document.getElementById('selected-list');
-            const warningsDiv = document.getElementById('conflict-warnings');
-            
-            const selected = Array.from(selectedScreenings).map(id => 
+        function updateSelectedList() {
+            const container = document.getElementById('selected-screenings');
+            container.innerHTML = '';
+
+            if (selectedScreenings.length === 0) {
+                container.innerHTML = '<p style="opacity: 0.5;">Ei valittuja näytöksiä</p>';
+                return;
+            }
+
+            const selected = selectedScreenings.map(id => 
                 festivalData.screenings.find(s => s.screening_id === id)
             ).filter(Boolean).sort((a, b) => 
                 new Date(a.datetime_start) - new Date(b.datetime_start)
             );
 
-            if (selected.length === 0) {
-                list.innerHTML = '<div class="empty-state">Klikkaa näytöksiä valitaksesi ne</div>';
-                warningsDiv.innerHTML = '';
-                return;
-            }
-
-            // Show conflicts
-            const conflicts = checkConflicts();
-            if (conflicts.length > 0) {
-                warningsDiv.innerHTML = `<div class="conflict-warning">⚠️ ${conflicts.length} päällekkäisyyttä havaittu!</div>`;
-            } else {
-                warningsDiv.innerHTML = '';
-            }
-
-            // Group by day
-            const byDay = {};
-            selected.forEach(s => {
-                const date = s.datetime_start.split('T')[0];
-                if (!byDay[date]) byDay[date] = [];
-                byDay[date].push(s);
+            selected.forEach(screening => {
+                const item = document.createElement('div');
+                item.className = 'selected-item';
+                item.innerHTML = `
+                    <div>
+                        <strong>${screening.title}</strong><br>
+                        <small>${formatDateTime(screening.datetime_start)} | ${screening.venue_name} | ${screening.duration_minutes} min ${screening.is_free ? '(ILMAINEN)' : ''}</small>
+                    </div>
+                    <button class="remove-btn" onclick="toggleScreening('${screening.screening_id}')">Poista</button>
+                `;
+                container.appendChild(item);
             });
+        }
 
-            list.innerHTML = Object.entries(byDay).map(([date, screenings]) => {
-                const day = festivalData.days.find(d => d.date === date);
+        function renderLegend() {
+            const legend = document.getElementById('legend');
+            const series = [...new Set(festivalData.screenings.map(s => s.series_id))];
+
+            legend.innerHTML = series.map(seriesId => {
+                const seriesInfo = festivalData.series_definitions?.find(s => s.series_id === seriesId);
                 return `
-                    <div style="margin-bottom: 15px;">
-                        <div style="font-weight: bold; color: #e91e63; margin-bottom: 8px;">${day?.label || date}</div>
-                        ${screenings.map(s => {
-                            const startTime = new Date(s.datetime_start);
-                            const timeStr = `${String(startTime.getHours()).padStart(2, '0')}:${String(startTime.getMinutes()).padStart(2, '0')}`;
-                            const isConflict = conflicts.some(c => c.includes(s.screening_id));
-                            return `
-                                <div class="selected-item ${isConflict ? 'conflict' : ''}">
-                                    <div class="title">${s.title}</div>
-                                    <div class="details">
-                                        ${timeStr} | ${s.duration_minutes} min | ${s.is_free ? '🆓 Ilmainen' : '💰 Maksullinen'}
-                                    </div>
-                                    <button class="remove-btn" onclick="toggleSelection('${s.screening_id}')">×</button>
-                                </div>
-                            `;
-                        }).join('')}
+                    <div class="legend-item">
+                        <div class="legend-color series-${seriesId}"></div>
+                        <span>${seriesInfo?.name || seriesId}</span>
                     </div>
                 `;
             }).join('');
-
-            // Update export textarea
-            document.getElementById('export-data').value = JSON.stringify(Array.from(selectedScreenings), null, 2);
         }
 
-        function saveToStorage() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(selectedScreenings)));
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const days = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
+            return `${days[date.getDay()]} ${date.getDate()}.${date.getMonth() + 1}.`;
         }
 
-        function loadFromStorage() {
-            const saved = localStorage.getItem(STORAGE_KEY);
+        function formatTime(datetimeString) {
+            const date = new Date(datetimeString);
+            return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        function formatDateTime(datetimeString) {
+            return `${formatDate(datetimeString.split('T')[0])} ${formatTime(datetimeString)}`;
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('tff2026_selections', JSON.stringify(selectedScreenings));
+        }
+
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('tff2026_selections');
             if (saved) {
-                try {
-                    const ids = JSON.parse(saved);
-                    selectedScreenings = new Set(ids);
-                } catch (e) {
-                    console.error('Failed to load selections:', e);
-                }
+                selectedScreenings = JSON.parse(saved);
             }
         }
 
         function exportSelection() {
-            const textarea = document.getElementById('export-data');
-            textarea.select();
-            document.execCommand('copy');
-            alert('Valinnat kopioitu leikepöydälle!');
+            const data = {
+                selections: selectedScreenings,
+                timestamp: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tff2026_selections_${Date.now()}.json`;
+            a.click();
         }
 
         function importSelection() {
-            const textarea = document.getElementById('export-data');
-            try {
-                const ids = JSON.parse(textarea.value);
-                if (Array.isArray(ids)) {
-                    selectedScreenings = new Set(ids);
-                    saveToStorage();
-                    updateScreeningVisuals();
-                    updateStats();
-                    updateSelectionPanel();
-                    alert('Valinnat tuotu onnistuneesti!');
-                }
-            } catch (e) {
-                alert('Virhe tuonnissa: Tarkista JSON-muoto');
-            }
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        selectedScreenings = data.selections || [];
+                        saveToLocalStorage();
+                        renderSchedule();
+                        updateStats();
+                        updateSelectedList();
+                        alert('Valinnat tuotu onnistuneesti!');
+                    } catch (error) {
+                        alert('Virhe tiedoston lukemisessa!');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
         }
 
         function clearSelection() {
             if (confirm('Haluatko varmasti tyhjentää kaikki valinnat?')) {
-                selectedScreenings.clear();
-                saveToStorage();
-                updateScreeningVisuals();
+                selectedScreenings = [];
+                saveToLocalStorage();
+                renderSchedule();
                 updateStats();
-                updateSelectionPanel();
+                updateSelectedList();
             }
         }
+
+        // Käynnistä sovellus
+        init();
     </script>
 </body>
 </html>
