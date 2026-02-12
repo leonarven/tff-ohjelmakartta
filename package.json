@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve:dist": "npx http-server dist/",
+    "surge:preview": "surge dist --preview",
     "dev": "npm run serve:dist"
   }
 }
