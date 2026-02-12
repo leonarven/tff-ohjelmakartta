@@ -238,8 +238,12 @@ display:flex;
     color: #ffff00;
 }
 
-.screening-box.tag-interested { box-shadow: inset 0 0 0 1px #90ee90; }
-.screening-box.tag-notinterested { box-shadow: inset 0 0 0 1px #ffa07a; }
+.screening-box.tag-interested {
+    box-shadow: inset -0.4rem -0.4rem 0.5rem 0.1rem #90ee90b3;
+}
+.screening-box.tag-notinterested {
+    opacity: 0.3;
+}
 
 /* Värikoodit sarjoille */
 .series-IK { background: #4a7ba7; }
