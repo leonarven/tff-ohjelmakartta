@@ -238,6 +238,7 @@ function createScreeningBox(screening) {
 	
 	box.style.top = `${topOffset}px`;
 	box.style.height = `${heightPx}px`;
+	box.style.minHeight = `${heightPx}px`;
 	
 	const tagChipsContainer = document.createElement('div');
 	tagChipsContainer.className = 'screening-tag-chips';
@@ -254,7 +255,7 @@ function createScreeningBox(screening) {
 	box.innerHTML = `
 		<div class="screening-title">${screening.title}</div>
 		<div class="screening-code">${screening.ticket_code || screening.screening_id}</div>
-		<div class="screening-time">${formatTime(screening.datetime_start)} | ${screening.duration_minutes} min</div>
+		<div class="screening-time">${formatTime(screening.datetime_start)} - ${formatTime(screening.datetime_end)} (${screening.duration_minutes} min)</div>
 	`;
 	box.appendChild(tagChipsContainer);
 	
@@ -352,26 +353,38 @@ function checkConflicts() {
 		festivalData.screenings.find(s => s.screening_id === id)
 	).filter(Boolean);
 	
-	for (let i = 0; i < selected.length; i++) {
-		for (let j = i + 1; j < selected.length; j++) {
-			if (screeningsOverlap(selected[i], selected[j])) {
-				// Merkitse konfliktit
-				document.querySelectorAll('.screening-box').forEach(box => {
-					const title = box.querySelector('.screening-title')?.textContent;
-					if (title === selected[i].title || title === selected[j].title) {
-						box.classList.add('conflict');
-					}
-				});
-				return true;
-			}
-		}
-	}
-	
+	// First, remove all previous conflict classes
 	document.querySelectorAll('.screening-box.conflict').forEach(box => {
 		box.classList.remove('conflict');
 	});
-	return false;
+
+	let hasConflict = false;
+	let conflictTitles = new Set();
+
+	// Gather all conflicts, store all involved titles
+	for (let i = 0; i < selected.length; i++) {
+		for (let j = i + 1; j < selected.length; j++) {
+			if (screeningsOverlap(selected[i], selected[j])) {
+				conflictTitles.add(selected[i].title);
+				conflictTitles.add(selected[j].title);
+				hasConflict = true;
+			}
+		}
+	}
+
+	// Mark all boxes with .conflict if their title is in the conflict set
+	if (hasConflict && conflictTitles.size > 0) {
+		document.querySelectorAll('.screening-box').forEach(box => {
+			const title = box.querySelector('.screening-title')?.textContent;
+			if (conflictTitles.has(title)) {
+				box.classList.add('conflict');
+			}
+		});
+	}
+
+	return hasConflict;
 }
+
 
 function screeningsOverlap(s1, s2) {
 	const start1 = new Date(s1.datetime_start);
@@ -400,7 +413,7 @@ function updateSelectedList() {
 		item.innerHTML = `
 				<div>
 					<strong>${screening.title}</strong><br>
-					<small>${formatDateTime(screening.datetime_start)} | ${screening.venue_name} | ${screening.duration_minutes} min ${screening.is_free ? '(ILMAINEN)' : ''}</small>
+					<small>${formatDateTime(screening.datetime_start)} - ${formatDateTime(screening.datetime_end)} | ${screening.venue_name} | ${screening.duration_minutes} min ${screening.is_free ? '(ILMAINEN)' : ''}</small>
 				</div>
 				<button class="remove-btn" onclick="toggleSelectedTag('${screening.screening_id}')">Poista</button>
 			`;

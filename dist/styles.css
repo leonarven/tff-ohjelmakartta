@@ -140,12 +140,18 @@ display:flex;
     transform: scale(1.02);
     z-index: 100;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    /** Overrading static and possibly too small height when hoverred */
+    height: auto !important;
 }
 
+.screening-box.tag-interested, 
+.screening-box.tag-seura-vikunja, .screening-box.tag-seura-manuli,
+.screening-box.selected {
+    box-shadow: 0 0 13px rgba(255,255,0,0.5);
+}
 
 .screening-box.tag-interested {
-    /*box-shadow: inset -0.4rem 0rem 0.5rem 0.1rem #66f766b3;*/
-    box-shadow: 0 0 13px rgba(255,255,0,0.5);
+    border: 6px solid #00ff0055;
 }
 .screening-box.tag-notinterested {
     opacity: 0.3;
@@ -167,13 +173,14 @@ display:flex;
 }
 
 
-.screening-box.conflict {
-    border: 3px solid #ff0000;
-    box-shadow: 0 0 10px rgba(255,0,0,0.5);
-}
 .screening-box.selected {
     border: 6px solid #00ff00;
     box-shadow: 0 0 13px rgba(255,255,0,0.5);
+}
+.screening-box.conflict {
+    border: 3px solid #ff0000 !important;
+    box-shadow: 0 0 10px rgba(255,0,0,0.5) !important;
+    opacity: 1 !important;
 }
 
 
