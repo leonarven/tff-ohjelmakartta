@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFF2026 Ohjelmakartta</title>
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 TFF2026 Ohjelmakartta</h1>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <strong>#selected:</strong> <span id="selected-count">0</span> näytöstä
+                </div>
+                <div class="stat-item" id="paid-counter">
+                    <strong>Maksullisia:</strong> <span id="paid-count">0</span> / 10
+                </div>
+                <div class="stat-item" id="conflict-warning" style="display: none;">
+                    ⚠️ Päällekkäisyyksiä havaittu!
+                </div>
+            </div>
+
+            <div class="controls">
+                <button onclick="clearSelection()">🗑️ Tyhjennä tagit</button>
+            </div>
+
+            <div class="legend" id="legend"></div>
+        </div>
+
+        <div class="grid-wrapper" id="schedule-container"></div>
+
+        <div class="selected-list">
+            <h2>Tagged as #selected</h2>
+            <div id="selected-screenings"></div>
+        </div>
+    </div>
+
+    <script type="module" src="src/scripts.js"></script>
+</body>
+</html>

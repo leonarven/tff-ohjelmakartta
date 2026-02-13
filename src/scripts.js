@@ -251,11 +251,17 @@ function createScreeningBox(screening) {
 		chip.onclick = (e) => { e.stopPropagation(); toggleTag(screening.screening_id, tagId); refreshAfterTagChange(); };
 		tagChipsContainer.appendChild(chip);
 	});
+
+	let titleInnerHtml = screening.title;
+
+	if (screening.url) {
+		titleInnerHtml += ` <small><a href="${screening.url}" onclick="event.stopPropagation();" target="_blank" class="screening-url-link">Linkki</a></small>`;
+	}
 	
 	box.innerHTML = `
-		<div class="screening-title">${screening.title}</div>
-		<div class="screening-code">${screening.ticket_code || screening.screening_id}</div>
+		<div class="screening-title">${titleInnerHtml}</div>
 		<div class="screening-time">${formatTime(screening.datetime_start)} - ${formatTime(screening.datetime_end)} (${screening.duration_minutes} min)</div>
+		<div class="screening-code">${screening.ticket_code || screening.screening_id}</div>
 	`;
 	box.appendChild(tagChipsContainer);
 	

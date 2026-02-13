@@ -143,6 +143,12 @@ display:flex;
     /** Overrading static and possibly too small height when hoverred */
     height: auto !important;
 }
+.screening-box .screening-url-link {
+    display: none;
+}
+.screening-box:hover .screening-url-link {
+    display: inline-block;
+}
 
 .screening-box.tag-interested, 
 .screening-box.tag-seura-vikunja, .screening-box.tag-seura-manuli,
