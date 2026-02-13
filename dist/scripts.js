@@ -5,7 +5,11 @@ let venuesPerDay = {}; // Tallentaa kunkin päivän sijaintimäärän
 const PREDEFINED_TAGS = [
 	{ id: 'selected', label: '#selected' },
 	{ id: 'interested', label: '#interested' },
-	{ id: 'notinterested', label: '#notinterested' }
+	{ id: 'notinterested', label: '#notinterested' },
+
+	// Special tags for "want to watch with special persons". Names anonymized.
+	{ id: 'seura-manuli', label: '#manuli' },
+	{ id: 'seura-vikunja', label: '#vikunja' },
 ];
 
 // Record<screening_id, string[]>

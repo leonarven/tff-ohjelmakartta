@@ -142,15 +142,41 @@ display:flex;
     box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-.screening-box.selected {
-    border: 6px solid #ffff00;
+
+.screening-box.tag-interested {
+    /*box-shadow: inset -0.4rem 0rem 0.5rem 0.1rem #66f766b3;*/
     box-shadow: 0 0 13px rgba(255,255,0,0.5);
 }
+.screening-box.tag-notinterested {
+    opacity: 0.3;
+}
+
+
+.screening-box.tag-seura-vikunja::after, .screening-box.tag-seura-manuli::after {
+    display: block;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    font-size: 1rem;
+}
+.screening-box.tag-seura-vikunja::after {
+    content: 'V';
+}
+.screening-box.tag-seura-manuli::after {
+    content: 'M';
+}
+
 
 .screening-box.conflict {
     border: 3px solid #ff0000;
     box-shadow: 0 0 10px rgba(255,0,0,0.5);
 }
+.screening-box.selected {
+    border: 6px solid #00ff00;
+    box-shadow: 0 0 13px rgba(255,255,0,0.5);
+}
+
+
 
 .screening-title {
     font-weight: bold;
@@ -238,12 +264,6 @@ display:flex;
     color: #ffff00;
 }
 
-.screening-box.tag-interested {
-    box-shadow: inset -0.4rem -0.4rem 0.5rem 0.1rem #90ee90b3;
-}
-.screening-box.tag-notinterested {
-    opacity: 0.3;
-}
 
 /* Värikoodit sarjoille */
 .series-IK { background: #4a7ba7; }
