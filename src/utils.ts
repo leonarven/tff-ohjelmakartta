@@ -13,7 +13,7 @@ export function festivalDataJSONToFestivalData( data: FestivalDataJSON ): Festiv
 			order: index,
 		} as Venue)) ],
 		screenings: [ ...data.screenings.map(( screening: FestivalDataJSON['screenings'][number]) => {
-			let { screening_id, series_id, program_number, title, datetime_start, datetime_end, duration_minutes, venue_id, is_free, ticket_code, url } = screening;
+			let { screening_id, series_id, title, datetime_start, datetime_end, duration_minutes, venue_id, is_free, ticket_code, url } = screening;
 			
 			return {
 				id: screening_id,
