@@ -2,6 +2,8 @@
 let festivalData = null;
 let venuesPerDay = {}; // Tallentaa kunkin päivän sijaintimäärän
 
+//const festivalData = import('./data.json';
+
 const PREDEFINED_TAGS = [
 	{ id: 'selected', label: '#selected' },
 	{ id: 'interested', label: '#interested' },
@@ -67,7 +69,7 @@ async function fetchFestivalData() {
 	let data;
 	
 	try {
-		if (!(new URLSearchParams(location.search)).get("reset")) {
+		if (false && !(new URLSearchParams(location.search)).get("reset")) {
 			data = JSON.parse( localStorage.getItem( STORAGE_KEY_FESTIVAL_DATA ));
 		}
 	} catch (error) {
@@ -75,7 +77,7 @@ async function fetchFestivalData() {
 	}
 	
 	if (!data) {
-		data = await (await fetch("/data.json")).json();
+		data = { ...(await import("./data.json")) };
 		localStorage.setItem( STORAGE_KEY_FESTIVAL_DATA, JSON.stringify( data ) );
 	}
 	
